@@ -1,0 +1,1695 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>ВікіДжерело — вільні статті з перевірюваними джерелами</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500,650,750&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f7f7f6;
+      --paper: #ffffff;
+      --ink: #1f2328;
+      --muted: #5a6675;
+      --line: rgba(17, 24, 39, .14);
+      --line-strong: rgba(17, 24, 39, .22);
+
+      --link: #1a4fd8;
+      --link-visited: #6b2fb9;
+      --link-hover: #0b3fbf;
+
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --mark: rgba(15,118,110,.12);
+
+      --shadow: 0 18px 50px rgba(16, 24, 40, .10);
+      --shadow-soft: 0 10px 30px rgba(16, 24, 40, .08);
+
+      --radius: 14px;
+      --radius-sm: 10px;
+
+      --max: 1200px;
+      --sidebar: 290px;
+      --toc: 250px;
+
+      --serif: "Literata", ui-serif, Georgia, serif;
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+      --fs-0: clamp(0.92rem, 0.88rem + 0.2vw, 1.02rem);
+      --fs-1: clamp(1.05rem, 1.00rem + 0.35vw, 1.18rem);
+      --fs-2: clamp(1.30rem, 1.18rem + 0.8vw, 1.65rem);
+      --fs-3: clamp(1.65rem, 1.35rem + 1.6vw, 2.35rem);
+      --fs-4: clamp(2.15rem, 1.65rem + 2.6vw, 3.1rem);
+
+      --lh: 1.55;
+
+      /* High-contrast mode toggles (JS changes these) */
+      --panel: rgba(255,255,255,.72);
+      --panel-strong: rgba(255,255,255,.92);
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 var(--fs-0)/var(--lh) var(--sans);
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .grain{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .12;
+      mix-blend-mode: multiply;
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(15,118,110,.10), transparent 55%),
+        radial-gradient(900px 700px at 85% 20%, rgba(180,83,9,.10), transparent 60%),
+        radial-gradient(900px 600px at 70% 90%, rgba(26,79,216,.08), transparent 55%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,.03), rgba(0,0,0,.03) 1px, transparent 1px, transparent 3px);
+      filter: contrast(105%) saturate(95%);
+      z-index: 0;
+    }
+
+    a{
+      color: var(--link);
+      text-decoration: none;
+      text-decoration-thickness: from-font;
+      text-underline-offset: .18em;
+    }
+    a:hover{ color: var(--link-hover); text-decoration: underline; }
+    a:visited{ color: var(--link-visited); }
+
+    code, kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: .95em;
+    }
+    kbd{
+      padding: .15em .45em;
+      border: 1px solid rgba(17,24,39,.18);
+      border-bottom-color: rgba(17,24,39,.28);
+      border-radius: 8px;
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 1px 0 rgba(17,24,39,.08);
+    }
+
+    .skip{
+      position: absolute;
+      left: -999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip:focus{
+      left: 14px;
+      top: 14px;
+      width: auto;
+      height: auto;
+      padding: 10px 12px;
+      background: var(--paper);
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      box-shadow: var(--shadow-soft);
+      z-index: 9999;
+    }
+
+    /* Header */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(to bottom, rgba(247,247,246,.92), rgba(247,247,246,.72));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 10px 14px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 240px;
+    }
+    .mark{
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background:
+        radial-gradient(20px 20px at 30% 30%, rgba(255,255,255,.9), transparent 55%),
+        conic-gradient(from 210deg, rgba(15,118,110,.85), rgba(26,79,216,.85), rgba(180,83,9,.82), rgba(15,118,110,.85));
+      box-shadow: 0 10px 18px rgba(16, 24, 40, .14);
+      position: relative;
+      overflow: hidden;
+    }
+    .mark:after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: linear-gradient(120deg, transparent 0 34%, rgba(255,255,255,.35) 40%, transparent 46% 100%);
+      transform: translateX(-30%);
+      opacity: .75;
+    }
+    .brand h1{
+      font: 780 1.02rem/1.1 var(--serif);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .brand p{
+      margin: 0;
+      font-size: .80rem;
+      color: var(--muted);
+      letter-spacing: .01em;
+    }
+
+    .search{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      justify-self: stretch;
+    }
+    .search .field{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(17, 24, 39, .02) inset;
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .search .field:focus-within{
+      border-color: rgba(26,79,216,.45);
+      box-shadow: 0 0 0 4px rgba(26,79,216,.10);
+      transform: translateY(-1px);
+    }
+    .search svg{ flex: 0 0 auto; opacity: .72; }
+    .search input{
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: var(--ink);
+      font: 600 .96rem/1.2 var(--sans);
+    }
+    .search input::placeholder{ color: rgba(90,102,117,.85); }
+
+    .actions{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-self: end;
+      flex-wrap: wrap;
+    }
+
+    .btn{
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font: 750 .90rem/1 var(--sans);
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease, opacity .2s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(17,24,39,.26);
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 10px 20px rgba(16, 24, 40, .08);
+    }
+    .btn:active{ transform: translateY(0px) scale(.99); }
+    .btn[disabled]{ opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .btn.primary{
+      border-color: rgba(15,118,110,.35);
+      background: linear-gradient(to bottom, rgba(15,118,110,.10), rgba(15,118,110,.06));
+    }
+    .btn.primary:hover{
+      border-color: rgba(15,118,110,.55);
+      box-shadow: 0 12px 28px rgba(15,118,110,.14);
+    }
+    .btn.danger{
+      border-color: rgba(185,28,28,.25);
+      background: rgba(185,28,28,.06);
+    }
+
+    /* Layout */
+    .app{
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+    }
+    .shell{
+      max-width: var(--max);
+      width: 100%;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .mobileRow{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chip{
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      cursor: pointer;
+      font: 800 .86rem/1 var(--sans);
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      user-select: none;
+    }
+    .chip:hover{ transform: translateY(-1px); background: rgba(255,255,255,.92); border-color: rgba(17,24,39,.24); }
+    .chip:active{ transform: translateY(0px) scale(.99); }
+
+    aside.sidebar, aside.toc{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 0 rgba(17, 24, 39, .02) inset;
+      overflow: clip;
+    }
+
+    .panelHead{
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(to bottom, rgba(255,255,255,.9), rgba(255,255,255,.6));
+    }
+    .panelHead h2{
+      margin: 0;
+      font: 850 .92rem/1.2 var(--sans);
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: rgba(31,35,40,.82);
+    }
+    .panelBody{ padding: 12px 14px 14px; }
+
+    .navlist{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+      font-size: .96rem;
+    }
+    .navlist a{
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .15s ease;
+    }
+    .navlist a:hover{
+      background: rgba(15,118,110,.06);
+      border-color: rgba(15,118,110,.18);
+      transform: translateY(-1px);
+    }
+    .navlist small{ color: var(--muted); font-weight: 700; }
+
+    main{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: clip;
+    }
+
+    .articleTop{
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(900px 180px at 12% 0%, rgba(15,118,110,.10), transparent 65%),
+        radial-gradient(700px 170px at 88% 10%, rgba(180,83,9,.10), transparent 60%),
+        linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,.78));
+    }
+
+    .kicker{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: .92rem;
+    }
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(15,118,110,.10);
+      border: 1px solid rgba(15,118,110,.18);
+      color: rgba(15,118,110,.95);
+      font-weight: 850;
+      letter-spacing: .01em;
+    }
+
+    .titleRow{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    h1.pageTitle{
+      margin: 0;
+      font: 820 var(--fs-4)/1.08 var(--serif);
+      letter-spacing: -0.03em;
+    }
+    .subtitle{
+      margin: 0;
+      color: rgba(90,102,117,.95);
+      font-size: var(--fs-1);
+      max-width: 62ch;
+    }
+
+    .metaBar{
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(17,24,39,.18);
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .metaBar .tools{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .tool{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: .86rem;
+      transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      user-select: none;
+    }
+    .tool:hover{
+      transform: translateY(-1px);
+      border-color: rgba(17,24,39,.25);
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 10px 20px rgba(16,24,40,.08);
+    }
+    .tool[aria-pressed="true"]{
+      border-color: rgba(26,79,216,.40);
+      box-shadow: 0 0 0 4px rgba(26,79,216,.10);
+    }
+
+    .articleBody{
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .lead{
+      font: 520 var(--fs-1)/1.65 var(--sans);
+      color: rgba(31,35,40,.92);
+      margin: 0;
+    }
+    .lead mark{
+      background: linear-gradient(to bottom, transparent 55%, var(--mark) 55%);
+      padding: 0 .12em;
+    }
+
+    .infobox{
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: linear-gradient(to bottom, rgba(247,247,246,.55), rgba(255,255,255,.9));
+      overflow: clip;
+    }
+    .infoboxHeader{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .infoboxHeader strong{
+      font: 900 1.02rem/1.2 var(--sans);
+      letter-spacing: -0.01em;
+    }
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(180,83,9,.25);
+      background: rgba(180,83,9,.08);
+      color: rgba(140,76,10,1);
+      font-weight: 900;
+      font-size: .82rem;
+      user-select: none;
+    }
+    .infoboxBody{ padding: 10px 12px 12px; }
+    .kv{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 0;
+    }
+    .kv .row{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2px;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(17,24,39,.14);
+    }
+    .kv .row:last-child{ border-bottom: 0; }
+    .kv dt{
+      font-weight: 900;
+      color: rgba(31,35,40,.86);
+      font-size: .92rem;
+    }
+    .kv dd{
+      margin: 0;
+      color: rgba(90,102,117,.95);
+      font-weight: 650;
+    }
+
+    section.content{ scroll-margin-top: 92px; }
+    h2{
+      margin: 0 0 10px;
+      font: 820 var(--fs-2)/1.18 var(--serif);
+      letter-spacing: -0.02em;
+    }
+    h3{
+      margin: 14px 0 8px;
+      font: 820 1.15rem/1.2 var(--serif);
+      letter-spacing: -0.01em;
+    }
+    p{ margin: 0 0 12px; color: rgba(31,35,40,.92); }
+    ul{ margin: 0 0 12px 1.1rem; padding: 0; color: rgba(31,35,40,.92); }
+    li{ margin: 6px 0; }
+
+    .note{
+      border-left: 3px solid rgba(15,118,110,.45);
+      padding: 10px 12px;
+      background: rgba(15,118,110,.06);
+      border-radius: 10px;
+      color: rgba(31,35,40,.92);
+    }
+    .note strong{ font-weight: 950; }
+
+    .refs{
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      margin-top: 6px;
+    }
+    .refs ol{ margin: 0 0 0 1.2rem; padding: 0; color: rgba(31,35,40,.88); }
+    .refs li{ margin: 8px 0; }
+    .ref{ color: rgba(90,102,117,.95); font-size: .95rem; }
+
+    .toc nav{
+      display: grid;
+      gap: 6px;
+      font-size: .95rem;
+    }
+    .toc a{
+      display: block;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      color: rgba(31,35,40,.92);
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .15s ease;
+    }
+    .toc a:hover{
+      background: rgba(26,79,216,.06);
+      border-color: rgba(26,79,216,.16);
+      transform: translateY(-1px);
+    }
+    .toc a[aria-current="true"]{
+      background: rgba(26,79,216,.10);
+      border-color: rgba(26,79,216,.22);
+      box-shadow: 0 0 0 4px rgba(26,79,216,.08);
+    }
+
+    /* Editor */
+    .editor{
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: clip;
+      background: linear-gradient(to bottom, rgba(247,247,246,.55), rgba(255,255,255,.95));
+    }
+    .editorHead{
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .editorHead strong{
+      font: 900 1.0rem/1.2 var(--sans);
+      letter-spacing: -0.01em;
+    }
+    .editorBody{
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+    .editorBody label{
+      font-weight: 850;
+      color: rgba(31,35,40,.86);
+      font-size: .92rem;
+    }
+    .input, textarea{
+      width: 100%;
+      border: 1px solid rgba(17,24,39,.18);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: 600 .98rem/1.35 var(--sans);
+      outline: none;
+      background: rgba(255,255,255,.92);
+      transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    textarea{
+      min-height: 180px;
+      resize: vertical;
+      font: 520 .98rem/1.55 var(--sans);
+    }
+    .input:focus, textarea:focus{
+      border-color: rgba(26,79,216,.45);
+      box-shadow: 0 0 0 4px rgba(26,79,216,.10);
+      transform: translateY(-1px);
+    }
+    .editorHelp{
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.5;
+    }
+    .editorGrid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .editorActions{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .hintRow{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: rgba(90,102,117,.95);
+      font-size: .92rem;
+      font-weight: 650;
+    }
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow-soft);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      font-weight: 800;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    footer{
+      max-width: var(--max);
+      margin: 22px auto 26px;
+      padding: 0 14px;
+      color: rgba(90,102,117,.95);
+      font-size: .92rem;
+    }
+    .foot{
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      display: grid;
+      gap: 8px;
+    }
+    .foot .cols{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    /* Motion */
+    .reveal{ opacity: 0; transform: translateY(10px); animation: rise .7s ease forwards; }
+    .reveal.d2{ animation-delay: .08s; }
+    .reveal.d3{ animation-delay: .16s; }
+    .reveal.d4{ animation-delay: .24s; }
+    @keyframes rise{ to{ opacity: 1; transform: translateY(0); } }
+
+    /* Offcanvas */
+    .offcanvas{
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 24, 40, .35);
+      backdrop-filter: blur(8px);
+      z-index: 80;
+      display: none;
+    }
+    .offcanvas[aria-hidden="false"]{ display: block; }
+    .drawer{
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      width: min(92vw, 420px);
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      transform: translateX(-12px);
+      opacity: 0;
+      animation: drawerIn .22s ease forwards;
+    }
+    .drawer.right{ right: 10px; left: auto; transform: translateX(12px); }
+    .drawer.left{ left: 10px; right: auto; }
+    @keyframes drawerIn{ to{ transform: translateX(0); opacity: 1; } }
+    .drawer .panelBody{ overflow: auto; }
+
+    /* Desktop layout */
+    @media (min-width: 980px){
+      .shell{ grid-template-columns: var(--sidebar) 1fr var(--toc); align-items: start; gap: 16px; }
+      .mobileRow{ display: none; }
+      aside.sidebar{ position: sticky; top: 78px; height: fit-content; }
+      aside.toc{ position: sticky; top: 78px; height: fit-content; }
+      .articleBody{ grid-template-columns: 1.35fr .65fr; }
+      .infobox{ grid-column: 2; grid-row: 1 / span 3; }
+      .contentWrap{ grid-column: 1; }
+      .editor{ grid-column: 1 / -1; }
+      .editorGrid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    @media print{
+      header, .sidebar, .toc, .mobileRow, .actions, .metaBar .tools, .offcanvas, .grain, .editor { display: none !important; }
+      body{ background: #fff; }
+      main{ box-shadow: none; border: 0; }
+      .shell{ max-width: 100%; padding: 0; }
+      .articleTop{ border-bottom: 1px solid #ddd; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip" href="#content">Перейти до вмісту</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="app">
+    <header>
+      <div class="topbar">
+        <div class="brand reveal">
+          <div class="mark" aria-hidden="true"></div>
+          <div>
+            <h1>ВікіДжерело</h1>
+            <p>вільні статті з перевірюваними джерелами</p>
+          </div>
+        </div>
+
+        <form class="search reveal d2" role="search" aria-label="Пошук">
+          <div class="field">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M10.5 18.5a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M16.4 16.4 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input id="searchInput" type="search" placeholder="Пошук розділів і заголовків…" autocomplete="off" />
+          </div>
+          <button class="btn primary" type="submit">Знайти</button>
+        </form>
+
+        <div class="actions reveal d3" aria-label="Дії користувача">
+          <button class="btn" id="randomBtn" type="button">Випадкова</button>
+          <button class="btn" id="themeBtn" type="button" aria-pressed="false">Контраст</button>
+          <button class="btn primary" id="authBtn" type="button">Увійти</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <div class="mobileRow reveal d2" aria-label="Мобільні дії">
+        <button class="chip" type="button" id="openNav"><span aria-hidden="true">≡</span> Навігація</button>
+        <button class="chip" type="button" id="openToc"><span aria-hidden="true">☰</span> Зміст</button>
+      </div>
+
+      <aside class="sidebar reveal d2" aria-label="Бічна навігація">
+        <div class="panelHead">
+          <h2>Портал</h2>
+          <span class="badge" title="Офлайн-демо">Offline demo</span>
+        </div>
+        <div class="panelBody">
+          <ul class="navlist" id="sideNav">
+            <li><a href="#content"><span>Головна стаття</span><small>читати</small></a></li>
+            <li><a href="#about"><span>Про проєкт</span><small>довідка</small></a></li>
+            <li><a href="#nature"><span>Природа</span><small>тема</small></a></li>
+            <li><a href="#airplanes"><span>Літаки</span><small>тема</small></a></li>
+            <li><a href="#policy"><span>Принципи</span><small>правила</small></a></li>
+            <li><a href="#editor"><span>Редактор</span><small>додати</small></a></li>
+            <li><a href="#refs"><span>Джерела</span><small>посилання</small></a></li>
+          </ul>
+
+          <div class="note" style="margin-top:12px">
+            <strong>Важливо:</strong> цей файл працює сам по собі (без сервера). Реєстрація/вхід тут — <em>демо</em> і зберігається у браузері (LocalStorage).
+            Для справжньої реєстрації потрібен бекенд (сервер + база даних).
+          </div>
+        </div>
+      </aside>
+
+      <main id="content" aria-label="Стаття">
+        <div class="articleTop">
+          <div class="kicker reveal">
+            <span class="pill">Стаття</span>
+            <span>Мова: українська</span>
+            <span>•</span>
+            <span id="lastEdited">Оновлено: сьогодні</span>
+          </div>
+
+          <div class="titleRow">
+            <h1 class="pageTitle reveal d2" id="pageTitle">ВікіДжерело</h1>
+            <p class="subtitle reveal d3" id="pageSubtitle">
+              Енциклопедичний шаблон з «змістом», навігацією та редактором. Редагування дозволене лише після входу.
+            </p>
+          </div>
+
+          <div class="metaBar reveal d4" aria-label="Панель інструментів">
+            <div>Перегляд • Обговорення • Історія</div>
+            <div class="tools">
+              <button class="tool" type="button" id="copyLinkBtn">Копіювати посилання</button>
+              <button class="tool" type="button" id="printBtn">Друк</button>
+              <button class="tool" type="button" id="openKeyboardHelp">Гарячи клавіші</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="articleBody">
+          <div class="contentWrap" id="contentWrap">
+            <p class="lead reveal">
+              <strong>ВікіДжерело</strong> — це демонстраційна «вікі-подібна» сторінка: сітка як у довідниках, акуратна типографіка та автоматичний «Зміст».
+              Нижче додані статті про <mark>природу</mark> та <mark>літаки</mark>, а також блок «Редактор» — він відкривається лише після реєстрації/входу.
+            </p>
+
+            <section class="content reveal d2" id="about">
+              <h2>Про проєкт</h2>
+              <p>
+                Сторінка побудована так, щоб читач швидко знаходив потрібне: короткий вступ, далі розділи зі зрозумілими заголовками, праворуч — зміст.
+              </p>
+              <p class="note">
+                <strong>Примітка:</strong> у справжній вікі редагування, історія змін і модерація робляться на сервері. Тут — акуратна «заготовка» з демо-авторизацією.
+              </p>
+            </section>
+
+            <section class="content reveal d3" id="nature">
+              <h2>Природа</h2>
+              <p>
+                <strong>Природа</strong> — це сукупність живих організмів і природних процесів, що формують середовище існування на Землі:
+                атмосфера, вода, ґрунти, клімат, флора і фауна. Її стан визначає якість життя людей — від доступу до чистої води до стабільності клімату.
+              </p>
+              <h3>Екосистеми</h3>
+              <p>
+                Екосистема — це взаємодія організмів із середовищем: ліс, степ, річка, болото, океанічні узбережжя. Кожна має власні «правила» рівноваги:
+                колообіг речовин, ланцюги живлення, сезонні зміни.
+              </p>
+              <h3>Збереження</h3>
+              <ul>
+                <li><strong>Заповідники та парки</strong> — охороняють унікальні види та ландшафти.</li>
+                <li><strong>Раціональне використання ресурсів</strong> — менше відходів, повторне використання, енергоефективність.</li>
+                <li><strong>Екологічна освіта</strong> — формує відповідальну поведінку спільнот.</li>
+              </ul>
+              <p class="note">
+                <strong>Факт:</strong> біорізноманіття підвищує стійкість екосистем до стресів (посух, хвороб, змін температур).
+              </p>
+            </section>
+
+            <section class="content reveal d4" id="airplanes">
+              <h2>Літаки</h2>
+              <p>
+                <strong>Літак</strong> — це повітряне судно з нерухомими крилами, яке створює підйомну силу завдяки набігаючому потоку повітря.
+                Сучасна авіація охоплює пасажирські перевезення, вантажні рейси, рятувальні місії та наукові польоти.
+              </p>
+              <h3>Основні частини</h3>
+              <ul>
+                <li><strong>Крило</strong> — створює підйомну силу; має механізацію (закрилки, елерони).</li>
+                <li><strong>Фюзеляж</strong> — корпус, де розміщуються кабіна, пасажири/вантаж.</li>
+                <li><strong>Хвостове оперення</strong> — стабілізація і керування тангажем/йоу.</li>
+                <li><strong>Двигуни</strong> — реактивні або гвинтові; забезпечують тягу.</li>
+              </ul>
+              <h3>Безпека</h3>
+              <p>
+                Авіація має багаторівневі системи безпеки: регламенти техобслуговування, тренування екіпажів, резервування систем,
+                контроль погоди та диспетчеризацію. Ключовий принцип — передбачуваність і перевірка на кожному етапі.
+              </p>
+            </section>
+
+            <section class="content reveal" id="policy">
+              <h2>Принципи</h2>
+              <ul>
+                <li><strong>Перевірюваність:</strong> твердження бажано підтверджувати джерелами.</li>
+                <li><strong>Нейтральність:</strong> без реклами та упереджених оцінок.</li>
+                <li><strong>Структура:</strong> чіткі розділи, короткі абзаци, зрозумілі заголовки.</li>
+                <li><strong>Повага:</strong> без образ, плагіату та небезпечного контенту.</li>
+              </ul>
+            </section>
+
+            <!-- Editor (login required) -->
+            <section class="content reveal" id="editor" aria-label="Редактор статті">
+              <h2>Редактор (лише після реєстрації)</h2>
+
+              <div class="editor" id="editorBox">
+                <div class="editorHead">
+                  <strong>Додати / змінити розділ</strong>
+                  <span class="badge" id="editorBadge">Гість</span>
+                </div>
+
+                <div class="editorBody">
+                  <p class="editorHelp" id="editorHelp">
+                    Щоб редагувати, потрібно <strong>зареєструватися</strong> або <strong>увійти</strong>. У цій демо-версії дані зберігаються у вашому браузері.
+                    Для реального сайту потрібен сервер (API), база даних та безпечна авторизація.
+                  </p>
+
+                  <div class="editorGrid" aria-label="Поля редактора">
+                    <div>
+                      <label for="secTitle">Заголовок розділу (H2)</label>
+                      <input class="input" id="secTitle" placeholder="Наприклад: Історія авіації" disabled />
+                    </div>
+
+                    <div>
+                      <label for="secId">ID розділу (латиниця, без пробілів)</label>
+                      <input class="input" id="secId" placeholder="Наприклад: aviation-history" disabled />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="secText">Текст (параграфи; можна з нового рядка)</label>
+                    <textarea id="secText" placeholder="Напишіть зміст розділу…" disabled></textarea>
+                    <div class="hintRow" style="margin-top:8px">
+                      <span>Порада: робіть короткі абзаци, додавайте факти та посилання на джерела.</span>
+                    </div>
+                  </div>
+
+                  <div class="editorActions">
+                    <div style="display:flex; gap:8px; flex-wrap:wrap">
+                      <button class="btn primary" id="addSectionBtn" type="button" disabled>Додати розділ</button>
+                      <button class="btn" id="updateSectionBtn" type="button" disabled>Оновити за ID</button>
+                      <button class="btn danger" id="deleteSectionBtn" type="button" disabled>Видалити за ID</button>
+                    </div>
+                    <button class="btn" id="exportBtn" type="button">Експорт JSON</button>
+                  </div>
+
+                  <div class="note" id="authNote" style="display:none">
+                    <strong>Увага:</strong> це лише клієнтська «вікі». Будь-хто на іншому комп’ютері не побачить ваші правки, бо вони зберігаються локально.
+                    Якщо хочете, я дам технічний план бекенду (Node/PHP/Firebase), щоб редагування працювало для всіх.
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="content refs reveal" id="refs" aria-label="Джерела">
+              <h2>Джерела</h2>
+              <ol>
+                <li class="ref">Загальні принципи енциклопедичного викладу: нейтральність, структурованість, посилання на першоджерела.</li>
+                <li class="ref">Загальні відомості про екосистеми та біорізноманіття (оглядова інформація).</li>
+                <li class="ref">Базова термінологія авіації: частини літака, керування, принципи безпеки (оглядова інформація).</li>
+              </ol>
+            </section>
+          </div>
+
+          <aside class="infobox reveal d3" aria-label="Інфобокс">
+            <div class="infoboxHeader">
+              <strong>Коротко</strong>
+              <span class="badge">Інфо</span>
+            </div>
+            <div class="infoboxBody">
+              <dl class="kv">
+                <div class="row">
+                  <dt>Тип</dt>
+                  <dd>Вікі-подібний сайт (демо)</dd>
+                </div>
+                <div class="row">
+                  <dt>Редагування</dt>
+                  <dd>Лише після входу</dd>
+                </div>
+                <div class="row">
+                  <dt>Збереження</dt>
+                  <dd>LocalStorage (у браузері)</dd>
+                </div>
+                <div class="row">
+                  <dt>Зміст</dt>
+                  <dd>Генерується автоматично</dd>
+                </div>
+                <div class="row">
+                  <dt>Експорт</dt>
+                  <dd>JSON для переносу</dd>
+                </div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <aside class="toc reveal d3" aria-label="Зміст">
+        <div class="panelHead">
+          <h2>Зміст</h2>
+          <button class="btn" type="button" id="collapseTocBtn" aria-label="Згорнути/розгорнути зміст">↕</button>
+        </div>
+        <div class="panelBody" id="tocBody">
+          <nav id="tocNav" aria-label="Навігація по розділах"></nav>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div class="foot">
+        <div class="cols">
+          <div>
+            Це «офлайн-демо» вікі. Для редагування <strong>іншими людьми через інтернет</strong> потрібен сервер і база даних.
+          </div>
+          <div>
+            <a href="#content">Нагору</a> • <a href="javascript:void(0)" id="openAuthFromFooter">Вхід/реєстрація</a>
+          </div>
+        </div>
+        <div style="opacity:.9">
+          © <span id="year"></span> «ВікіДжерело».
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Offcanvas: Mobile navigation -->
+  <div class="offcanvas" id="navCanvas" aria-hidden="true">
+    <div class="drawer left" role="dialog" aria-modal="true" aria-label="Навігація">
+      <div class="panelHead">
+        <h2>Навігація</h2>
+        <button class="btn" type="button" data-close="navCanvas">Закрити</button>
+      </div>
+      <div class="panelBody">
+        <ul class="navlist" id="sideNavMobile">
+          <li><a href="#content" data-close="navCanvas"><span>Головна стаття</span><small>читати</small></a></li>
+          <li><a href="#about" data-close="navCanvas"><span>Про проєкт</span><small>довідка</small></a></li>
+          <li><a href="#nature" data-close="navCanvas"><span>Природа</span><small>тема</small></a></li>
+          <li><a href="#airplanes" data-close="navCanvas"><span>Літаки</span><small>тема</small></a></li>
+          <li><a href="#policy" data-close="navCanvas"><span>Принципи</span><small>правила</small></a></li>
+          <li><a href="#editor" data-close="navCanvas"><span>Редактор</span><small>додати</small></a></li>
+          <li><a href="#refs" data-close="navCanvas"><span>Джерела</span><small>посилання</small></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offcanvas: Mobile TOC -->
+  <div class="offcanvas" id="tocCanvas" aria-hidden="true">
+    <div class="drawer right" role="dialog" aria-modal="true" aria-label="Зміст">
+      <div class="panelHead">
+        <h2>Зміст</h2>
+        <button class="btn" type="button" data-close="tocCanvas">Закрити</button>
+      </div>
+      <div class="panelBody">
+        <nav id="tocNavMobile" aria-label="Навігація по розділах (мобільна)"></nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offcanvas: Auth (Login/Register) -->
+  <div class="offcanvas" id="authCanvas" aria-hidden="true">
+    <div class="drawer right" role="dialog" aria-modal="true" aria-label="Вхід або реєстрація">
+      <div class="panelHead">
+        <h2>Акаунт</h2>
+        <button class="btn" type="button" data-close="authCanvas">Закрити</button>
+      </div>
+
+      <div class="panelBody">
+        <div class="note" style="margin-bottom:12px">
+          <strong>Демо:</strong> реєстрація працює локально (у вашому браузері). Для справжнього доступу інших людей потрібен бекенд.
+        </div>
+
+        <div class="editor" style="border-radius:16px">
+          <div class="editorHead">
+            <strong>Реєстрація</strong>
+            <span class="badge">Новий</span>
+          </div>
+          <div class="editorBody">
+            <label for="regName">Ім’я користувача</label>
+            <input class="input" id="regName" placeholder="Напр.: andrii_ua" autocomplete="username" />
+            <label for="regPass">Пароль</label>
+            <input class="input" id="regPass" placeholder="Мінімум 6 символів" type="password" autocomplete="new-password" />
+            <button class="btn primary" id="registerBtn" type="button">Створити акаунт</button>
+            <p class="editorHelp">Пароль у демо не шифрується як на справжньому сайті (на сервері треба хешувати).</p>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="editor" style="border-radius:16px">
+          <div class="editorHead">
+            <strong>Вхід</strong>
+            <span class="badge">Доступ</span>
+          </div>
+          <div class="editorBody">
+            <label for="logName">Ім’я користувача</label>
+            <input class="input" id="logName" placeholder="Ваш логін" autocomplete="username" />
+            <label for="logPass">Пароль</label>
+            <input class="input" id="logPass" placeholder="Ваш пароль" type="password" autocomplete="current-password" />
+            <button class="btn primary" id="loginBtn" type="button">Увійти</button>
+            <button class="btn danger" id="logoutBtn" type="button" disabled>Вийти</button>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="note">
+          <strong>Як зробити “як у Вікіпедії” по-справжньому?</strong><br>
+          Потрібно: сервер (API), база даних, ролі користувачів, історія змін, модерація, захист від спаму.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offcanvas: Help -->
+  <div class="offcanvas" id="helpCanvas" aria-hidden="true">
+    <div class="drawer right" role="dialog" aria-modal="true" aria-label="Гарячи клавіші">
+      <div class="panelHead">
+        <h2>Підказки</h2>
+        <button class="btn" type="button" data-close="helpCanvas">Закрити</button>
+      </div>
+      <div class="panelBody">
+        <p class="note"><strong>/</strong> — фокус у пошук • <strong>g</strong> потім <strong>t</strong> — нагору • <strong>Esc</strong> — закрити панелі</p>
+        <ul>
+          <li><strong>Редагування</strong> доступне лише після входу/реєстрації (демо).</li>
+          <li><strong>Експорт JSON</strong> — забрати ваші локальні правки як файл/текст.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // -----------------------------
+    // IMPORTANT SECURITY NOTE
+    // -----------------------------
+    // This is a single-file, frontend-only demo. It cannot provide real multi-user editing.
+    // "Registration" here is simulated using LocalStorage on the same device.
+    // For real editing by other people, you need a backend with auth + database.
+    // -----------------------------
+
+    const $ = (s, root=document) => root.querySelector(s);
+    const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
+
+    // Footer year + last edited (demo)
+    $("#year").textContent = new Date().getFullYear();
+    const now = new Date();
+    const fmt = new Intl.DateTimeFormat("uk-UA", { day:"2-digit", month:"long", year:"numeric" });
+    $("#lastEdited").textContent = "Оновлено: " + fmt.format(now);
+
+    // Toast
+    const toast = $("#toast");
+    let toastTimer = null;
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove("show"), 1300);
+    }
+
+    // Offcanvas controls
+    function openCanvas(id){
+      const c = document.getElementById(id);
+      c.setAttribute("aria-hidden", "false");
+      const btn = c.querySelector("button, input");
+      btn && btn.focus();
+      document.body.style.overflow = "hidden";
+    }
+    function closeCanvas(id){
+      const c = document.getElementById(id);
+      c.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+    function closeAll(){
+      ["navCanvas","tocCanvas","helpCanvas","authCanvas"].forEach((id)=>{
+        const el = document.getElementById(id);
+        if(el) el.setAttribute("aria-hidden","true");
+      });
+      document.body.style.overflow = "";
+    }
+
+    $("#openNav").addEventListener("click", ()=> openCanvas("navCanvas"));
+    $("#openToc").addEventListener("click", ()=> openCanvas("tocCanvas"));
+
+    document.addEventListener("click", (e) => {
+      const closeId = e.target?.dataset?.close;
+      if(closeId){ closeCanvas(closeId); return; }
+
+      if(e.target.classList && e.target.classList.contains("offcanvas")){
+        e.target.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") closeAll();
+
+      if(e.key === "/" && !["INPUT","TEXTAREA"].includes(document.activeElement?.tagName)){
+        e.preventDefault();
+        $("#searchInput").focus();
+      }
+
+      if(!window.__seq) window.__seq = [];
+      window.__seq.push({key:e.key, t: performance.now()});
+      window.__seq = window.__seq.filter(x => performance.now() - x.t < 700);
+      const seq = window.__seq.map(x=>x.key).join("");
+      if(seq.endsWith("gt")){
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.__seq = [];
+      }
+    });
+
+    // Contrast toggle (still light)
+    const themeBtn = $("#themeBtn");
+    themeBtn.addEventListener("click", () => {
+      const pressed = themeBtn.getAttribute("aria-pressed") === "true";
+      themeBtn.setAttribute("aria-pressed", String(!pressed));
+      if(!pressed){
+        document.documentElement.style.setProperty("--line", "rgba(17, 24, 39, .22)");
+        document.documentElement.style.setProperty("--line-strong", "rgba(17, 24, 39, .32)");
+        document.documentElement.style.setProperty("--muted", "#465261");
+        document.documentElement.style.setProperty("--panel", "rgba(255,255,255,.82)");
+        themeBtn.textContent = "Звичайний";
+        showToast("Контраст: увімкнено");
+      }else{
+        document.documentElement.style.setProperty("--line", "rgba(17, 24, 39, .14)");
+        document.documentElement.style.setProperty("--line-strong", "rgba(17, 24, 39, .22)");
+        document.documentElement.style.setProperty("--muted", "#5a6675");
+        document.documentElement.style.setProperty("--panel", "rgba(255,255,255,.72)");
+        themeBtn.textContent = "Контраст";
+        showToast("Контраст: вимкнено");
+      }
+    });
+
+    // Buttons: copy, print, random, help
+    $("#copyLinkBtn").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(location.href);
+        showToast("Посилання скопійовано");
+      }catch(err){
+        alert("Не вдалося скопіювати посилання. Спробуйте вручну.");
+      }
+    });
+    $("#printBtn").addEventListener("click", () => window.print());
+    $("#openKeyboardHelp").addEventListener("click", () => openCanvas("helpCanvas"));
+
+    // Random: jump to a random section
+    $("#randomBtn").addEventListener("click", () => {
+      const secs = $$(".content[id]");
+      if(!secs.length) return;
+      const pick = secs[Math.floor(Math.random() * secs.length)];
+      pick.scrollIntoView({ behavior: "smooth", block: "start" });
+      showToast("Випадковий розділ");
+    });
+
+    // Search (headings only)
+    document.querySelector("form.search").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = $("#searchInput").value.trim().toLowerCase();
+      if(!q) return;
+
+      const nodes = $$("main h2, main h3, main .pageTitle");
+      const hit = nodes.find(n => n.textContent.toLowerCase().includes(q));
+      if(hit){
+        hit.scrollIntoView({ behavior: "smooth", block: "start" });
+        const prev = hit.style.boxShadow;
+        hit.style.boxShadow = "0 0 0 6px rgba(180,83,9,.14)";
+        hit.style.borderRadius = "10px";
+        setTimeout(()=> { hit.style.boxShadow = prev; }, 900);
+      }else{
+        alert("Нічого не знайдено у заголовках. Спробуйте інший запит.");
+      }
+    });
+
+    // Build TOC from sections
+    function buildToc(targetNav){
+      targetNav.innerHTML = "";
+      const sections = $$(".content[id]", document);
+      sections.forEach((sec) => {
+        const title = sec.querySelector("h2, h3");
+        if(!title) return;
+        const a = document.createElement("a");
+        a.href = "#" + sec.id;
+        a.textContent = title.textContent.trim();
+        a.dataset.for = sec.id;
+        targetNav.appendChild(a);
+      });
+    }
+    buildToc($("#tocNav"));
+    buildToc($("#tocNavMobile"));
+
+    // Scroll spy (desktop TOC)
+    (function spyLinks(){
+      const links = $$("#tocNav a");
+      const sections = links.map(a => document.getElementById(a.dataset.for)).filter(Boolean);
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            links.forEach(a => a.setAttribute("aria-current", a.dataset.for === entry.target.id ? "true" : "false"));
+          }
+        });
+      }, { rootMargin: "-20% 0px -72% 0px", threshold: 0.01 });
+
+      sections.forEach(s => io.observe(s));
+    })();
+
+    // Collapse TOC
+    $("#collapseTocBtn").addEventListener("click", () => {
+      const body = $("#tocBody");
+      const collapsed = body.style.display === "none";
+      body.style.display = collapsed ? "" : "none";
+    });
+
+    // Reveal on scroll safety (ensures visible if user scrolls fast)
+    const revealEls = $$(".reveal");
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.style.animationPlayState = "running";
+          ro.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => ro.observe(el));
+
+    // -----------------------------
+    // "Auth" (DEMO) - LocalStorage
+    // -----------------------------
+    // Storage keys
+    const KEY_USERS = "vj_users_v1";
+    const KEY_SESSION = "vj_session_v1";
+    const KEY_CONTENT = "vj_content_v1"; // stores user-added sections
+
+    function getUsers(){
+      try{ return JSON.parse(localStorage.getItem(KEY_USERS) || "[]"); }
+      catch{ return []; }
+    }
+    function setUsers(users){
+      localStorage.setItem(KEY_USERS, JSON.stringify(users));
+    }
+    function getSession(){
+      try{ return JSON.parse(localStorage.getItem(KEY_SESSION) || "null"); }
+      catch{ return null; }
+    }
+    function setSession(sess){
+      localStorage.setItem(KEY_SESSION, JSON.stringify(sess));
+    }
+    function hashDemo(str){
+      // DEMO only: not secure. Real app must hash on server with bcrypt/argon2 + salt.
+      let h = 0;
+      for(let i=0;i<str.length;i++){ h = (h<<5) - h + str.charCodeAt(i); h |= 0; }
+      return String(h);
+    }
+
+    function currentUser(){
+      const sess = getSession();
+      if(!sess) return null;
+      const users = getUsers();
+      return users.find(u => u.name === sess.name) || null;
+    }
+
+    // Auth UI
+    const authBtn = $("#authBtn");
+    const logoutBtn = $("#logoutBtn");
+    $("#openAuthFromFooter").addEventListener("click", () => openCanvas("authCanvas"));
+    authBtn.addEventListener("click", () => openCanvas("authCanvas"));
+
+    function setEditorEnabled(enabled){
+      ["secTitle","secId","secText","addSectionBtn","updateSectionBtn","deleteSectionBtn"].forEach(id=>{
+        const el = document.getElementById(id);
+        el.disabled = !enabled;
+      });
+
+      $("#authNote").style.display = enabled ? "" : "none";
+    }
+
+    function updateAuthState(){
+      const user = currentUser();
+      const badge = $("#editorBadge");
+      const help = $("#editorHelp");
+
+      if(user){
+        authBtn.textContent = user.name;
+        logoutBtn.disabled = false;
+        badge.textContent = "Увійшов: " + user.name;
+        help.innerHTML = `Ви увійшли як <strong>${escapeHtml(user.name)}</strong>. Можете додавати, оновлювати або видаляти розділи за ID.`;
+        setEditorEnabled(true);
+        showToast("Вхід виконано");
+      }else{
+        authBtn.textContent = "Увійти";
+        logoutBtn.disabled = true;
+        badge.textContent = "Гість";
+        help.innerHTML = `Щоб редагувати, потрібно <strong>зареєструватися</strong> або <strong>увійти</strong>. У цій демо-версії дані зберігаються у вашому браузері.`;
+        setEditorEnabled(false);
+      }
+    }
+
+    $("#registerBtn").addEventListener("click", () => {
+      const name = $("#regName").value.trim();
+      const pass = $("#regPass").value;
+
+      if(!name || name.length < 3){
+        alert("Ім’я користувача має бути мінімум 3 символи.");
+        return;
+      }
+      if(!/^[a-zA-Z0-9_]+$/.test(name)){
+        alert("Ім’я може містити лише латиницю, цифри та підкреслення.");
+        return;
+      }
+      if(!pass || pass.length < 6){
+        alert("Пароль має бути мінімум 6 символів.");
+        return;
+      }
+
+      const users = getUsers();
+      if(users.some(u => u.name.toLowerCase() === name.toLowerCase())){
+        alert("Такий користувач вже існує.");
+        return;
+      }
+
+      users.push({ name, passHash: hashDemo(pass), createdAt: Date.now() });
+      setUsers(users);
+      setSession({ name, at: Date.now() });
+      $("#regName").value = "";
+      $("#regPass").value = "";
+      updateAuthState();
+      closeCanvas("authCanvas");
+    });
+
+    $("#loginBtn").addEventListener("click", () => {
+      const name = $("#logName").value.trim();
+      const pass = $("#logPass").value;
+
+      const users = getUsers();
+      const u = users.find(x => x.name.toLowerCase() === name.toLowerCase());
+      if(!u || u.passHash !== hashDemo(pass)){
+        alert("Неправильний логін або пароль.");
+        return;
+      }
+      setSession({ name: u.name, at: Date.now() });
+      $("#logPass").value = "";
+      updateAuthState();
+      closeCanvas("authCanvas");
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      setSession(null);
+      updateAuthState();
+      showToast("Вихід виконано");
+    });
+
+    // -----------------------------
+    // Content persistence (DEMO)
+    // -----------------------------
+    function getCustomSections(){
+      try{ return JSON.parse(localStorage.getItem(KEY_CONTENT) || "[]"); }
+      catch{ return []; }
+    }
+    function setCustomSections(list){
+      localStorage.setItem(KEY_CONTENT, JSON.stringify(list));
+    }
+
+    function escapeHtml(str){
+      return str
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function textToParagraphs(text){
+      const blocks = text.split(/\n{2,}/).map(s => s.trim()).filter(Boolean);
+      if(!blocks.length) return "<p></p>";
+      return blocks.map(b => `<p>${escapeHtml(b).replaceAll("\n","<br>")}</p>`).join("");
+    }
+
+    function renderCustomSections(){
+      // Remove previously rendered custom sections
+      $$(".content[data-custom='true']").forEach(el => el.remove());
+
+      const list = getCustomSections();
+      // Insert before refs
+      const refs = $("#refs");
+      list.forEach(item => {
+        const sec = document.createElement("section");
+        sec.className = "content reveal";
+        sec.id = item.id;
+        sec.dataset.custom = "true";
+        sec.innerHTML = `<h2>${escapeHtml(item.title)}</h2>${textToParagraphs(item.text)}`
+        refs.parentNode.insertBefore(sec, refs);
+      });
+
+      // Rebuild TOC (desktop + mobile)
+      buildToc($("#tocNav"));
+      buildToc($("#tocNavMobile"));
+      // Also update scroll spy by reloading page sections (simple approach: refresh)
+      // (We keep it simple; for production you'd re-init observer.)
+    }
+
+    renderCustomSections();
+
+    function upsertSection({id, title, text, author}){
+      const list = getCustomSections();
+      const i = list.findIndex(s => s.id === id);
+      const payload = { id, title, text, author, updatedAt: Date.now(), createdAt: i === -1 ? Date.now() : list[i].createdAt };
+      if(i === -1) list.push(payload);
+      else list[i] = payload;
+      setCustomSections(list);
+      renderCustomSections();
+    }
+
+    function deleteSection(id){
+      const list = getCustomSections().filter(s => s.id !== id);
+      setCustomSections(list);
+      renderCustomSections();
+    }
+
+    function validateId(id){
+      if(!id) return "ID не може бути порожнім.";
+      if(id.length < 3) return "ID має бути мінімум 3 символи.";
+      if(!/^[a-z0-9-]+$/.test(id)) return "ID: лише латиниця у нижньому регістрі, цифри та дефіси (a-z, 0-9, -).";
+      const reserved = new Set(["content","about","nature","airplanes","policy","editor","refs"]);
+      if(reserved.has(id)) return "Цей ID зарезервований. Виберіть інший.";
+      return null;
+    }
+
+    $("#addSectionBtn").addEventListener("click", () => {
+      const user = currentUser();
+      if(!user){ openCanvas("authCanvas"); return; }
+
+      const title = $("#secTitle").value.trim();
+      const id = $("#secId").value.trim();
+      const text = $("#secText").value.trim();
+
+      const err = validateId(id);
+      if(err){ alert(err); return; }
+      if(!title || title.length < 3){ alert("Заголовок має бути мінімум 3 символи."); return; }
+      if(!text || text.length < 10){ alert("Текст має бути мінімум 10 символів."); return; }
+
+      const existsInBase = !!document.getElementById(id);
+      if(existsInBase){
+        alert("Розділ з таким ID вже існує. Використайте «Оновити за ID» або змініть ID.");
+        return;
+      }
+
+      upsertSection({ id, title, text, author: user.name });
+      showToast("Розділ додано");
+      $("#secTitle").value = "";
+      $("#secId").value = "";
+      $("#secText").value = "";
+    });
+
+    $("#updateSectionBtn").addEventListener("click", () => {
+      const user = currentUser();
+      if(!user){ openCanvas("authCanvas"); return; }
+
+      const title = $("#secTitle").value.trim();
+      const id = $("#secId").value.trim();
+      const text = $("#secText").value.trim();
+
+      const err = validateId(id);
+      if(err){ alert(err); return; }
+      if(!title || title.length < 3){ alert("Заголовок має бути мінімум 3 символи."); return; }
+      if(!text || text.length < 10){ alert("Текст має бути мінімум 10 символів."); return; }
+
+      // allow updating custom section or base section (base update is visual only here)
+      const base = document.getElementById(id);
+      if(base && base.dataset.custom !== "true"){
+        // Update base section in DOM (not persisted unless you export and bake into HTML)
+        const h2 = base.querySelector("h2");
+        if(h2) h2.textContent = title;
+        // Replace everything after h2 with paragraphs
+        const keepH2 = base.querySelector("h2");
+        base.innerHTML = "";
+        base.appendChild(keepH2);
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = textToParagraphs(text);
+        Array.from(wrapper.childNodes).forEach(n => base.appendChild(n));
+        buildToc($("#tocNav"));
+        buildToc($("#tocNavMobile"));
+        showToast("Розділ оновлено (локально)");
+        return;
+      }
+
+      upsertSection({ id, title, text, author: user.name });
+      showToast("Розділ оновлено");
+    });
+
+    $("#deleteSectionBtn").addEventListener("click", () => {
+      const user = currentUser();
+      if(!user){ openCanvas("authCanvas"); return; }
+
+      const id = $("#secId").value.trim();
+      const err = validateId(id);
+      if(err){ alert(err); return; }
+
+      const sec = document.getElementById(id);
+      if(sec && sec.dataset.custom !== "true"){
+        alert("Базові розділи цього демо-файлу видаляти не можна. Видаляються лише додані вами (custom) розділи.");
+        return;
+      }
+
+      if(!confirm("Видалити розділ '" + id + "'?")) return;
+      deleteSection(id);
+      showToast("Розділ видалено");
+    });
+
+    $("#exportBtn").addEventListener("click", () => {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        page: { title: $("#pageTitle").textContent.trim() },
+        customSections: getCustomSections()
+      };
+      const text = JSON.stringify(payload, null, 2);
+      // Try download
+      try{
+        const blob = new Blob([text], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "vikidzherelo-export.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast("Експортовано JSON");
+      }catch(e){
+        // Fallback: copy to clipboard
+        navigator.clipboard?.writeText(text);
+        alert("Не вдалося завантажити файл. JSON скопійовано/показано в консолі.");
+        console.log(text);
+      }
+    });
+
+    // Open auth from editor when user clicks in disabled fields
+    ["secTitle","secId","secText"].forEach(id=>{
+      const el = document.getElementById(id);
+      el.addEventListener("click", () => {
+        if(el.disabled) openCanvas("authCanvas");
+      });
+    });
+
+    // Init auth state
+    updateAuthState();
+
+    document.getElementById("authNote").style.display = "block";
+    document.getElementById("secTitle").disabled = false;
+    document.getElementById("secId").disabled = false;
+    document.getElementById("secText").disabled = false;
+
+    // Auth canvas open button in header updated in updateAuthState; keep logout enable/disable
+    // Extra: help and auth from footer
+    // (already wired)
+    // Функція для реєстрації через вікно prompt
+window.openCanvas = function(id) {
+    if (id === "authCanvas") {
+        let name = prompt("Введіть ваше ім'я для реєстрації:");
+        if (name) {
+            localStorage.setItem('currentUser', name);
+            alert("Вітаємо, " + name + "! Ви успішно зареєстровані.");
+            location.reload(); 
+        }
+    }
+};
+    // Mobile nav/toc items close their drawers
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a[data-close]");
+      if(a){
+        const id = a.getAttribute("data-close");
+        closeCanvas(id);
+      }
+    });
+
+    // If user edits sections, TOC spy isn't reinitialized; keep it simple:
+    // For production, reinit observer after renderCustomSections().
+  </script>
+</body>
+</html>
