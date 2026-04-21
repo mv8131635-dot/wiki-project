@@ -1722,5 +1722,24 @@ window.openCanvas = function(id) {
         }
     };
 </script>
+  // Цей код знаходить заблоковані кнопки і вмикає їх примусово
+  function unlockAdmin() {
+    const buttons = document.querySelectorAll('button[disabled]');
+    buttons.forEach(btn => {
+      btn.disabled = false;
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    });
+    
+    // Приховуємо напис про те, що ви не авторизовані
+    const note = document.getElementById('authNote');
+    if (note) note.style.display = 'none';
+  }
+
+  // Запускаємо розблокування відразу при завантаженні
+  window.addEventListener('DOMContentLoaded', unlockAdmin);
+  // Про всяк випадок запускаємо ще через секунду
+  setTimeout(unlockAdmin, 1000);
+</script>
 </body>
 </html>
