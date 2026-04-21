@@ -1691,5 +1691,36 @@ window.openCanvas = function(id) {
     // If user edits sections, TOC spy isn't reinitialized; keep it simple:
     // For production, reinit observer after renderCustomSections().
   </script>
+<style>
+    /* Твої старі стилі залишаються тут */
+
+    .admin-panel { background: #f0f0f0; padding: 15px; border: 1px solid #ccc; margin-bottom: 20px; }
+    textarea { width: 100%; height: 80px; }
+    #display-text { background: #fff; padding: 10px; border-left: 4px solid blue; }
+</style>
+<div class="admin-panel">
+    <h3>Швидке редагування космосу</h3>
+    <textarea id="input-text"></textarea>
+    <button onclick="saveContent()">Оновити</button>
+</div>
+
+<div id="display-text">
+    </div>
+<script>
+    function saveContent() {
+        const text = document.getElementById('input-text').value;
+        localStorage.setItem('spaceInfo', text);
+        document.getElementById('display-text').innerText = text;
+    }
+
+    // Це щоб текст не зникав після оновлення сторінки
+    window.onload = function() {
+        const saved = localStorage.getItem('spaceInfo');
+        if (saved) {
+            document.getElementById('display-text').innerText = saved;
+            document.getElementById('input-text').value = saved;
+        }
+    };
+</script>
 </body>
 </html>
